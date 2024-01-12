@@ -1,15 +1,18 @@
-import { render } from './render';
+import { render, RenderPosition } from './render';
+import PointModel from './model/point-model';
+import PointPresenter from './presenter/point-presenter';
 import FilterView from './view/filter-view';
-import SortView from './view/sort-view';
-// import AddListPointView from './view/add-new-point-view';
-import ListView from './view/list-view';
-import EditPointView from './view/edit-point-view';
+import InfoView from './view/info-view';
 
-const siteMainElement = document.querySelector('.trip-main');
-const siteSortElement = document.querySelector('.trip-events');
+const mainContainer = document.querySelector('.trip-main');
+const filtersContainer = document.querySelector('.trip-controls__filters');
+const bodyContainer = document.querySelector ('.trip-events');
 
-render(new FilterView(), siteMainElement);
-render(new SortView(), siteSortElement);
-// render(new AddListPointView(), siteSortElement);
-render(new EditPointView(), siteSortElement);
-render(new ListView(), siteSortElement);
+render (new InfoView(), mainContainer, RenderPosition.AFTERBEGIN);
+render (new FilterView(), filtersContainer, RenderPosition.BEFOREBEGIN);
+
+const pointModel = new PointModel();
+pointModel.init();
+
+const pointPresenter = new PointPresenter({container: bodyContainer, pointModel: pointModel});
+pointPresenter.init();
